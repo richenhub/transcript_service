@@ -1,0 +1,35 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/app:/app/app
+      - whisper-models:/models
+      - hf-cache:/root/.cache/huggingface
+      - ./data:/data
+    environment:
+      - WHISPER_MODEL=small
+      - WHISPER_DEVICE=cpu
+      - WHISPER_COMPUTE_TYPE=int8
+      - MODEL_CACHE=/models
+      - DATA_DIR=/data
+      - HF_TOKEN=${HF_TOKEN:-}
+      - DIARIZE=${DIARIZE:-true}
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+volumes:
+  whisper-models:
+  hf-cache:

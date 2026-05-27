@@ -1,0 +1,8 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+transformers==4.48.0
+whisperx @ git+https://github.com/m-bain/whisperX.git@v3.3.1
+matplotlib==3.9.4
+sse-starlette==2.2.1
+pydantic==2.10.4
